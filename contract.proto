@@ -1,0 +1,797 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package contract.v1;
+message Events {
+    repeated Factory_FeeAmountEnabled factory_fee_amount_enableds = 1;
+    repeated Factory_OwnerChanged factory_owner_changeds = 2;
+    repeated Factory_PoolCreated factory_pool_createds = 3;
+    repeated Sushifactory_PairCreated sushifactory_pair_createds = 4;
+    repeated Oneinchfactory_Error1 oneinchfactory_error_1s = 5;
+    repeated Oneinchfactory_Error2 oneinchfactory_error_2s = 6;
+    repeated Oneinchfactory_OwnershipTransferred1 oneinchfactory_ownership_transferred_1s = 7;
+    repeated Oneinchfactory_OwnershipTransferred2 oneinchfactory_ownership_transferred_2s = 8;
+    repeated Oneinchfactory_Swapped1 oneinchfactory_swapped_1s = 9;
+    repeated Oneinchfactory_Swapped2 oneinchfactory_swapped_2s = 10;
+    repeated Pool_Burn pool_burns = 11;
+    repeated Pool_Collect pool_collects = 12;
+    repeated Pool_CollectProtocol pool_collect_protocols = 13;
+    repeated Pool_Flash pool_flashes = 14;
+    repeated Pool_IncreaseObservationCardinalityNext pool_increase_observation_cardinality_nexts = 15;
+    repeated Pool_Initialize pool_initializes = 16;
+    repeated Pool_Mint pool_mints = 17;
+    repeated Pool_SetFeeProtocol pool_set_fee_protocols = 18;
+    repeated Pool_Swap pool_swaps = 19;
+    repeated Sushipool_Approval sushipool_approvals = 20;
+    repeated Sushipool_Burn sushipool_burns = 21;
+    repeated Sushipool_Mint sushipool_mints = 22;
+    repeated Sushipool_Swap sushipool_swaps = 23;
+    repeated Sushipool_Sync sushipool_syncs = 24;
+    repeated Sushipool_Transfer sushipool_transfers = 25;
+}
+message Calls {
+    repeated Oneinchfactory_Destroy1call oneinchfactory_call_destroy_1s = 1;
+    repeated Oneinchfactory_Destroy2call oneinchfactory_call_destroy_2s = 2;
+    repeated Oneinchfactory_DiscountedSwap1call oneinchfactory_call_discounted_swap_1s = 3;
+    repeated Oneinchfactory_DiscountedSwap2call oneinchfactory_call_discounted_swap_2s = 4;
+    repeated Oneinchfactory_RenounceOwnership1call oneinchfactory_call_renounce_ownership_1s = 5;
+    repeated Oneinchfactory_RenounceOwnership2call oneinchfactory_call_renounce_ownership_2s = 6;
+    repeated Oneinchfactory_RescueFunds1call oneinchfactory_call_rescue_funds_1s = 7;
+    repeated Oneinchfactory_RescueFunds2call oneinchfactory_call_rescue_funds_2s = 8;
+    repeated Oneinchfactory_Swap1call oneinchfactory_call_swap_1s = 9;
+    repeated Oneinchfactory_Swap2call oneinchfactory_call_swap_2s = 10;
+    repeated Oneinchfactory_TransferOwnership1call oneinchfactory_call_transfer_ownership_1s = 11;
+    repeated Oneinchfactory_TransferOwnership2call oneinchfactory_call_transfer_ownership_2s = 12;
+    repeated Oneinchfactory_Unoswap1call oneinchfactory_call_unoswap_1s = 13;
+    repeated Oneinchfactory_Unoswap2call oneinchfactory_call_unoswap_2s = 14;
+    repeated Oneinchfactory_UnoswapWithPermit1call oneinchfactory_call_unoswap_with_permit_1s = 15;
+    repeated Oneinchfactory_UnoswapWithPermit2call oneinchfactory_call_unoswap_with_permit_2s = 16;
+    repeated Pool_BurnCall pool_call_burns = 17;
+    repeated Pool_CollectCall pool_call_collects = 18;
+    repeated Pool_CollectProtocolCall pool_call_collect_protocols = 19;
+    repeated Pool_FlashCall pool_call_flashes = 20;
+    repeated Pool_IncreaseObservationCardinalityNextCall pool_call_increase_observation_cardinality_nexts = 21;
+    repeated Pool_InitializeCall pool_call_initializes = 22;
+    repeated Pool_MintCall pool_call_mints = 23;
+    repeated Pool_SetFeeProtocolCall pool_call_set_fee_protocols = 24;
+    repeated Pool_SwapCall pool_call_swaps = 25;
+    repeated Sushipool_ApproveCall sushipool_call_approves = 26;
+    repeated Sushipool_BurnCall sushipool_call_burns = 27;
+    repeated Sushipool_InitializeCall sushipool_call_initializes = 28;
+    repeated Sushipool_MintCall sushipool_call_mints = 29;
+    repeated Sushipool_PermitCall sushipool_call_permits = 30;
+    repeated Sushipool_SkimCall sushipool_call_skims = 31;
+    repeated Sushipool_SwapCall sushipool_call_swaps = 32;
+    repeated Sushipool_SyncCall sushipool_call_syncs = 33;
+    repeated Sushipool_TransferCall sushipool_call_transfers = 34;
+    repeated Sushipool_TransferFromCall sushipool_call_transfer_froms = 35;
+}
+message EventsCalls {
+    Events events = 1;
+    Calls calls = 2;
+    repeated ArbitrageOpportunity arbitrage_opportunities = 3;  // Add this line to track arbitrage across 3 DEXs
+}
+message ArbitrageOpportunity {
+    string dex_1 = 1;                  // First DEX (e.g., Uniswap)
+    string dex_2 = 2;                  // Second DEX (e.g., SushiSwap)
+    string dex_3 = 3;                  // Third DEX (e.g., 1inch)
+    string token_pair = 4;             // Token pair (e.g., ETH/USDC)
+    string price_dex_1 = 5;            // Price on DEX 1
+    string price_dex_2 = 6;            // Price on DEX 2
+    string price_dex_3 = 7;            // Price on DEX 3
+    string best_price = 8;             // Best price among the DEXs
+    string potential_profit = 9;       // The calculated potential profit
+    google.protobuf.Timestamp time_found = 10; // Time the opportunity was detected
+}
+message Factory_FeeAmountEnabled {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    uint64 fee = 5;
+    int64 tick_spacing = 6;
+}
+message Factory_OwnerChanged {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes old_owner = 5;
+    bytes new_owner = 6;
+}
+message Factory_PoolCreated {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes token0 = 5;
+    bytes token1 = 6;
+    uint64 fee = 7;
+    int64 tick_spacing = 8;
+    bytes pool = 9;
+}
+  
+message Sushifactory_PairCreated {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes token0 = 5;
+    bytes token1 = 6;
+    bytes pair = 7;
+    string param3 = 8;
+}
+  
+message Oneinchfactory_Error1 {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string reason = 5;
+}
+message Oneinchfactory_Error2 {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string reason = 5;
+}
+message Oneinchfactory_OwnershipTransferred1 {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes previous_owner = 5;
+    bytes new_owner = 6;
+}
+message Oneinchfactory_OwnershipTransferred2 {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes previous_owner = 5;
+    bytes new_owner = 6;
+}
+message Oneinchfactory_Swapped1 {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes sender = 5;
+    bytes src_token = 6;
+    bytes dst_token = 7;
+    bytes dst_receiver = 8;
+    string spent_amount = 9;
+    string return_amount = 10;
+    string price_src_token_per_dst_token = 11; // Derived price field
+    string expected_price = 12;        // Expected price before swap
+    string executed_price = 13;        // Actual executed price after swap
+}
+message Oneinchfactory_Swapped2 {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    bytes sender = 5;
+    bytes src_token = 6;
+    bytes dst_token = 7;
+    bytes dst_receiver = 8;
+    string spent_amount = 9;
+    string return_amount = 10;
+    string price_src_token_per_dst_token = 11; // Derived price field
+    string expected_price = 12;        // Expected price before swap
+    string executed_price = 13;        // Actual executed price after swap
+} 
+message Oneinchfactory_Destroy1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+}
+message Oneinchfactory_Destroy2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+}
+message Oneinchfactory_DiscountedSwap1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes caller = 6;
+    bytes data = 7;
+    string output_return_amount = 8;
+    string output_gas_left = 9;
+    string output_chi_spent = 10;
+}
+message Oneinchfactory_DiscountedSwap2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes caller = 6;
+    bytes data = 7;
+    string output_return_amount = 8;
+    string output_gas_left = 9;
+    string output_chi_spent = 10;
+}
+message Oneinchfactory_RenounceOwnership1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+}
+message Oneinchfactory_RenounceOwnership2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+}
+message Oneinchfactory_RescueFunds1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes token = 6;
+    string amount = 7;
+}
+message Oneinchfactory_RescueFunds2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes token = 6;
+    string amount = 7;
+}
+message Oneinchfactory_Swap1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes caller = 6;
+    bytes data = 7;
+    string output_return_amount = 8;
+    string output_gas_left = 9;
+}
+message Oneinchfactory_Swap1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes caller = 6;
+    bytes data = 7;
+    string output_return_amount = 8;
+    string output_gas_left = 9;
+    string gas_price = 10; // Gas price field
+    string gas_used = 11;  // Gas used field
+}
+
+message Oneinchfactory_Swap2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes caller = 6;
+    bytes data = 7;
+    string output_return_amount = 8;
+    string output_gas_left = 9;
+    string gas_price = 10; // Gas price field
+    string gas_used = 11;  // Gas used field
+}
+message Oneinchfactory_TransferOwnership1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes new_owner = 6;
+}
+message Oneinchfactory_TransferOwnership2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes new_owner = 6;
+}
+message Oneinchfactory_Unoswap1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes src_token = 6;
+    string amount = 7;
+    string min_return = 8;
+    repeated bytes param3 = 9;
+    string output_return_amount = 10;
+}
+message Oneinchfactory_Unoswap2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes src_token = 6;
+    string amount = 7;
+    string min_return = 8;
+    repeated bytes param3 = 9;
+    string output_return_amount = 10;
+}
+message Oneinchfactory_UnoswapWithPermit1call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes src_token = 6;
+    string amount = 7;
+    string min_return = 8;
+    repeated bytes pools = 9;
+    bytes permit = 10;
+    string output_return_amount = 11;
+}
+message Oneinchfactory_UnoswapWithPermit2call {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    bytes src_token = 6;
+    string amount = 7;
+    string min_return = 8;
+    repeated bytes pools = 9;
+    bytes permit = 10;
+    string output_return_amount = 11;
+}
+    
+message Pool_Burn {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes owner = 6;
+    int64 tick_lower = 7;
+    int64 tick_upper = 8;
+    string amount = 9;
+    string amount0 = 10;
+    string amount1 = 11;
+}
+    
+message Pool_Collect {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes owner = 6;
+    bytes recipient = 7;
+    int64 tick_lower = 8;
+    int64 tick_upper = 9;
+    string amount0 = 10;
+    string amount1 = 11;
+}
+    
+message Pool_CollectProtocol {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes sender = 6;
+    bytes recipient = 7;
+    string amount0 = 8;
+    string amount1 = 9;
+}
+    
+message Pool_Flash {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes sender = 6;
+    bytes recipient = 7;
+    string amount0 = 8;
+    string amount1 = 9;
+    string paid0 = 10;
+    string paid1 = 11;
+}
+    
+message Pool_IncreaseObservationCardinalityNext {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    uint64 observation_cardinality_next_old = 6;
+    uint64 observation_cardinality_next_new = 7;
+}
+    
+message Pool_Initialize {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    string sqrt_price_x96 = 6;
+    int64 tick = 7;
+}
+    
+message Pool_Mint {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes sender = 6;
+    bytes owner = 7;
+    int64 tick_lower = 8;
+    int64 tick_upper = 9;
+    string amount = 10;
+    string amount0 = 11;
+    string amount1 = 12;
+}
+    
+message Pool_SetFeeProtocol {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    uint64 fee_protocol0_old = 6;
+    uint64 fee_protocol1_old = 7;
+    uint64 fee_protocol0_new = 8;
+    uint64 fee_protocol1_new = 9;
+}
+    
+message Pool_Swap {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes sender = 6;
+    bytes recipient = 7;
+    string amount0 = 8;
+    string amount1 = 9;
+    string sqrt_price_x96 = 10;
+    string liquidity = 11;
+    int64 tick = 12;
+    string price_token0_per_token1 = 13; // Derived price field
+    string expected_price = 14;          // Expected price before swap
+    string executed_price = 15;          // Actual executed price after swap
+}   
+
+    
+message Pool_BurnCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    int64 tick_lower = 7;
+    int64 tick_upper = 8;
+    string amount = 9;
+    string output_amount0 = 10;
+    string output_amount1 = 11;
+}
+    
+message Pool_CollectCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes recipient = 7;
+    int64 tick_lower = 8;
+    int64 tick_upper = 9;
+    string amount0_requested = 10;
+    string amount1_requested = 11;
+    string output_amount0 = 12;
+    string output_amount1 = 13;
+}
+    
+message Pool_CollectProtocolCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes recipient = 7;
+    string amount0_requested = 8;
+    string amount1_requested = 9;
+    string output_amount0 = 10;
+    string output_amount1 = 11;
+}
+    
+message Pool_FlashCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes recipient = 7;
+    string amount0 = 8;
+    string amount1 = 9;
+    bytes data = 10;
+}
+    
+message Pool_IncreaseObservationCardinalityNextCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    uint64 observation_cardinality_next = 7;
+}
+    
+message Pool_InitializeCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    string sqrt_price_x96 = 7;
+}
+    
+message Pool_MintCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes recipient = 7;
+    int64 tick_lower = 8;
+    int64 tick_upper = 9;
+    string amount = 10;
+    bytes data = 11;
+    string output_amount0 = 12;
+    string output_amount1 = 13;
+}
+    
+message Pool_SetFeeProtocolCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    uint64 fee_protocol0 = 7;
+    uint64 fee_protocol1 = 8;
+}
+    
+message Pool_SwapCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes recipient = 7;
+    bool zero_for_one = 8;
+    string amount_specified = 9;
+    string sqrt_price_limit_x96 = 10;
+    bytes data = 11;
+    string output_amount0 = 12;
+    string output_amount1 = 13;
+    string gas_price = 14; // Gas price field
+    string gas_used = 15;  // Gas used field
+}
+
+    
+message Sushipool_Approval {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes owner = 6;
+    bytes spender = 7;
+    string value = 8;
+}
+    
+message Sushipool_Burn {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes sender = 6;
+    string amount0 = 7;
+    string amount1 = 8;
+    bytes to = 9;
+}
+    
+message Sushipool_Mint {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes sender = 6;
+    string amount0 = 7;
+    string amount1 = 8;
+}
+    
+message Sushipool_Swap {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes sender = 6;
+    string amount0_in = 7;
+    string amount1_in = 8;
+    string amount0_out = 9;
+    string amount1_out = 10;
+    bytes to = 11;
+    string price_token0_per_token1 = 12; // Derived price field
+    string expected_price = 13;        // Expected price before swap
+    string executed_price = 14;        // Actual executed price after swap
+}
+
+    
+message Sushipool_Sync {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    string reserve0 = 6;
+    string reserve1 = 7;
+}
+    
+message Sushipool_Transfer {
+    string evt_tx_hash = 1;
+    uint32 evt_index = 2;
+    google.protobuf.Timestamp evt_block_time = 3;
+    uint64 evt_block_number = 4;
+    string evt_address = 5;
+    bytes from = 6;
+    bytes to = 7;
+    string value = 8;
+}
+    
+message Sushipool_ApproveCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes spender = 7;
+    string value = 8;
+    bool output_param0 = 9;
+}
+    
+message Sushipool_BurnCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes to = 7;
+    string output_amount0 = 8;
+    string output_amount1 = 9;
+}
+    
+message Sushipool_InitializeCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes u_token0 = 7;
+    bytes u_token1 = 8;
+}
+    
+message Sushipool_MintCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes to = 7;
+    string output_liquidity = 8;
+}
+    
+message Sushipool_PermitCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes owner = 7;
+    bytes spender = 8;
+    string value = 9;
+    string deadline = 10;
+    uint64 v = 11;
+    bytes r = 12;
+    bytes s = 13;
+}
+    
+message Sushipool_SkimCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes to = 7;
+}
+    
+message Sushipool_SwapCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    string amount0_out = 7;
+    string amount1_out = 8;
+    bytes to = 9;
+    bytes data = 10;
+    string gas_price = 11; // Gas price field
+    string gas_used = 12;  // Gas used field
+}
+
+    
+message Sushipool_SyncCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+}
+    
+message Sushipool_TransferCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes to = 7;
+    string value = 8;
+    bool output_param0 = 9;
+}
+    
+message Sushipool_TransferFromCall {
+    string call_tx_hash = 1;
+    google.protobuf.Timestamp call_block_time = 2;
+    uint64 call_block_number = 3;
+    uint64 call_ordinal = 4;
+    bool call_success = 5;
+    string call_address = 6;
+    bytes from = 7;
+    bytes to = 8;
+    string value = 9;
+    bool output_param0 = 10;
+}
